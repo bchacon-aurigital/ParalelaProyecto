@@ -32,7 +32,7 @@ public class ClienteMonitoreo {
             entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             salida = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println("¡Conexión establecida exitosamente!");
+            System.out.println("Conexion establecida exitosamente!");
             System.out.println();
 
             String linea;
@@ -44,7 +44,7 @@ public class ClienteMonitoreo {
 
         } catch (IOException e) {
             System.err.println("ERROR: No se pudo conectar al servidor.");
-            System.err.println("Asegúrese de que el servidor esté ejecutándose en " + SERVIDOR_HOST + ":" + SERVIDOR_PUERTO);
+            System.err.println("Asegurese de que el servidor este ejecutandose en " + SERVIDOR_HOST + ":" + SERVIDOR_PUERTO);
             System.err.println("Detalles: " + e.getMessage());
             return false;
         }
@@ -76,7 +76,7 @@ public class ClienteMonitoreo {
             }
 
         } catch (IOException e) {
-            System.err.println("ERROR: Conexión perdida con el servidor.");
+            System.err.println("ERROR: Conexion perdida con el servidor.");
             System.err.println("Detalles: " + e.getMessage());
         } finally {
             desconectar();
@@ -110,10 +110,10 @@ public class ClienteMonitoreo {
             if (scanner != null) {
                 scanner.close();
             }
-            System.out.println("\nConexión cerrada correctamente.");
+            System.out.println("\nConexion cerrada correctamente.");
 
         } catch (IOException e) {
-            System.err.println("Error al cerrar conexión: " + e.getMessage());
+            System.err.println("Error al cerrar conexion: " + e.getMessage());
         }
     }
 
@@ -124,11 +124,11 @@ public class ClienteMonitoreo {
         if (cliente.conectar()) {
             cliente.iniciar();
         } else {
-            System.out.println("\nNo se pudo establecer conexión con el servidor.");
+            System.out.println("\nNo se pudo establecer conexion con el servidor.");
             System.out.println("Verifique que:");
-            System.out.println("  1. El simulador esté ejecutándose");
-            System.out.println("  2. La simulación esté iniciada");
-            System.out.println("  3. El servidor TCP esté activo en el puerto " + SERVIDOR_PUERTO);
+            System.out.println("  1. El simulador este ejecutandose");
+            System.out.println("  2. La simulacion este iniciada");
+            System.out.println("  3. El servidor TCP este activo en el puerto " + SERVIDOR_PUERTO);
         }
     }
 }

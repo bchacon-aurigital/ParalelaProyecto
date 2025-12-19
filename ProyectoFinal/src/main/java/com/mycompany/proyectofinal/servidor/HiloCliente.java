@@ -56,7 +56,7 @@ public class HiloCliente extends Thread {
             }
 
         } catch (IOException e) {
-            System.err.println("[HILO-CLIENTE] Error de comunicación: " + e.getMessage());
+            System.err.println("[HILO-CLIENTE] Error de comunicacion: " + e.getMessage());
         } finally {
             cerrarConexion();
         }
@@ -72,7 +72,7 @@ public class HiloCliente extends Thread {
                     int idBus = Integer.parseInt(partes[1]);
                     enviarEstadoBus(idBus);
                 } catch (NumberFormatException e) {
-                    salida.println("ERROR: ID de bus inválido");
+                    salida.println("ERROR: ID de bus invalido");
                 }
             } else {
                 salida.println("ERROR: Formato incorrecto. Use: BUS <id>");
@@ -80,7 +80,7 @@ public class HiloCliente extends Thread {
         } else if (comando.equals("AYUDA")) {
             enviarAyuda();
         } else if (comando.equals("SALIR")) {
-            salida.println("Cerrando conexión. ¡Hasta pronto!");
+            salida.println("Cerrando conexion. Hasta pronto!");
         } else {
             salida.println("ERROR: Comando no reconocido. Escriba 'AYUDA' para ver comandos disponibles.");
         }
@@ -186,10 +186,10 @@ public class HiloCliente extends Thread {
             if (clienteSocket != null && !clienteSocket.isClosed()) {
                 clienteSocket.close();
             }
-            System.out.println("[HILO-CLIENTE] Conexión cerrada con cliente: "
+            System.out.println("[HILO-CLIENTE] Conexion cerrada con cliente: "
                     + clienteSocket.getInetAddress().getHostAddress());
         } catch (IOException e) {
-            System.err.println("[HILO-CLIENTE] Error al cerrar conexión: " + e.getMessage());
+            System.err.println("[HILO-CLIENTE] Error al cerrar conexion: " + e.getMessage());
         }
     }
 }
