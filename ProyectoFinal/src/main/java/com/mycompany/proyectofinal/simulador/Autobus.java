@@ -2,6 +2,7 @@ package com.mycompany.proyectofinal.simulador;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -49,6 +50,9 @@ public class Autobus extends Thread {
 
     @Override
     public void run() {
+        // Delay inicial diferente para cada bus (no todos empiezan al mismo tiempo)
+        pausa(id * 300 + random.nextInt(800));
+
         control.registrarEvento("Bus " + nombre + " en servicio.");
         while (activo) {
             esperarEnParada();
@@ -74,7 +78,20 @@ public class Autobus extends Thread {
 
             estadoBus = EstadoBus.EN_TRANSITO;
             control.actualizarPaneles();
-            moverHacia(destino.getX(), destino.getY());
+
+            // Obtener puntos intermedios para seguir los bordes de la ruta
+            List<int[]> puntosIntermedios = ruta.getPuntosIntermedios(posicionActual);
+
+            // Moverse a través de cada punto intermedio
+            for (int[] punto : puntosIntermedios) {
+                if (!activo) break;
+                moverHacia(punto[0], punto[1]);
+            }
+
+            // Finalmente moverse al destino (la siguiente parada)
+            if (activo) {
+                moverHacia(destino.getX(), destino.getY());
+            }
 
             Parada actual = ruta.getParada(posicionActual);
             actual.liberar(this);
@@ -90,7 +107,8 @@ public class Autobus extends Thread {
     }
 
     private void moverHacia(int destinoX, int destinoY) {
-        double pasos = 20;
+        // Aumentar pasos para movimiento más suave
+        double pasos = 30;
         double dx = (destinoX - posX) / pasos;
         double dy = (destinoY - posY) / pasos;
 
@@ -98,7 +116,8 @@ public class Autobus extends Thread {
             posX += dx;
             posY += dy;
             control.actualizarPaneles();
-            pausa(80 + random.nextInt(60));
+            // Velocidad ajustada: un poco más lento que antes pero no tanto
+            pausa(100 + random.nextInt(50));
         }
 
         posX = destinoX;
