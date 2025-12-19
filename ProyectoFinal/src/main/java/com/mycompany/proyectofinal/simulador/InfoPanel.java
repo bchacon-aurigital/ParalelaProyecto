@@ -11,9 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
 
-/**
- * Panel auxiliar para estados y eventos.
- */
 public class InfoPanel extends JPanel {
 
     private final JTextArea estadoArea = new JTextArea();

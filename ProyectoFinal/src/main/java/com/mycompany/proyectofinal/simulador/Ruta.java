@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Contiene las 20 paradas y utilidades simples.
- */
 public class Ruta {
 
     private final List<Parada> paradas;
@@ -33,35 +30,26 @@ public class Ruta {
         }
     }
 
-    /**
-     * Retorna los puntos intermedios que debe seguir un bus para ir
-     * desde la parada actual hasta la siguiente parada.
-     * Esto hace que los buses sigan los bordes de la ruta.
-     *
-     * @param paradaActual Índice de la parada actual
-     * @return Lista de puntos [x, y] por donde debe pasar el bus
-     */
     public List<int[]> getPuntosIntermedios(int paradaActual) {
         List<int[]> puntos = new ArrayList<>();
 
-        // Puntos intermedios específicos para cada transición de parada
         switch (paradaActual) {
-            case 0: // Parada 1 (38, 98) -> punto intermedio antes de llegar a parada 2
+            case 0:
                 puntos.add(new int[]{33, 130});
                 break;
 
-            case 5: // Parada 6 (371, 212) -> punto intermedio antes de parada 7
+            case 5:
                 puntos.add(new int[]{413, 229});
                 break;
 
-            case 8: // Parada 9 (570, 290) -> varios puntos antes de parada 10
+            case 8:
                 puntos.add(new int[]{576, 290});
                 puntos.add(new int[]{659, 277});
                 puntos.add(new int[]{732, 262});
                 puntos.add(new int[]{821, 258});
                 break;
 
-            case 9: // Parada 10 (859, 290) -> varios puntos antes de parada 11
+            case 9:
                 puntos.add(new int[]{896, 296});
                 puntos.add(new int[]{947, 357});
                 puntos.add(new int[]{983, 395});
@@ -69,22 +57,22 @@ public class Ruta {
                 puntos.add(new int[]{914, 515});
                 break;
 
-            case 11: // Parada 12 (992, 537) -> punto intermedio antes de parada 13
+            case 11:
                 puntos.add(new int[]{1067, 543});
                 break;
 
-            case 12: // Parada 13 (1070, 523) -> punto intermedio antes de parada 14
+            case 12:
                 puntos.add(new int[]{1004, 502});
                 break;
 
-            case 13: // Parada 14 (1000, 470) -> varios puntos antes de parada 15
+            case 13:
                 puntos.add(new int[]{974, 408});
                 puntos.add(new int[]{983, 385});
                 puntos.add(new int[]{947, 358});
                 puntos.add(new int[]{922, 325});
                 break;
 
-            case 14: // Parada 15 (940, 320) -> varios puntos antes de parada 16
+            case 14:
                 puntos.add(new int[]{922, 325});
                 puntos.add(new int[]{896, 296});
                 puntos.add(new int[]{821, 258});
@@ -94,23 +82,20 @@ public class Ruta {
                 puntos.add(new int[]{471, 263});
                 break;
 
-            case 15: // Parada 16 (476, 258) -> punto intermedio antes de parada 17
+            case 15:
                 puntos.add(new int[]{471, 263});
                 break;
 
-            case 16: // Parada 17 (415, 225) -> puntos antes de parada 18
+            case 16:
                 puntos.add(new int[]{353, 214});
                 puntos.add(new int[]{333, 190});
                 break;
 
-            case 18: // Parada 19 (124, 135) -> punto intermedio antes de parada 20
+            case 18:
                 puntos.add(new int[]{33, 130});
                 break;
 
-            // Para las demás paradas (2, 3, 4, 5, 7, 10, 17, 19), no hay puntos intermedios
-            // El bus irá directamente a la siguiente parada
             default:
-                // Sin puntos intermedios
                 break;
         }
 

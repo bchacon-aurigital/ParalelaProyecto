@@ -5,9 +5,6 @@ import java.awt.Image;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Hilo que representa a un autobús moviéndose por la ruta.
- */
 public class Autobus extends Thread {
 
     private final int id;
@@ -50,7 +47,6 @@ public class Autobus extends Thread {
 
     @Override
     public void run() {
-        // Delay inicial diferente para cada bus (no todos empiezan al mismo tiempo)
         pausa(id * 300 + random.nextInt(800));
 
         control.registrarEvento("Bus " + nombre + " en servicio.");
@@ -79,16 +75,13 @@ public class Autobus extends Thread {
             estadoBus = EstadoBus.EN_TRANSITO;
             control.actualizarPaneles();
 
-            // Obtener puntos intermedios para seguir los bordes de la ruta
             List<int[]> puntosIntermedios = ruta.getPuntosIntermedios(posicionActual);
 
-            // Moverse a través de cada punto intermedio
             for (int[] punto : puntosIntermedios) {
                 if (!activo) break;
                 moverHacia(punto[0], punto[1]);
             }
 
-            // Finalmente moverse al destino (la siguiente parada)
             if (activo) {
                 moverHacia(destino.getX(), destino.getY());
             }
@@ -107,7 +100,6 @@ public class Autobus extends Thread {
     }
 
     private void moverHacia(int destinoX, int destinoY) {
-        // Aumentar pasos para movimiento más suave
         double pasos = 30;
         double dx = (destinoX - posX) / pasos;
         double dy = (destinoY - posY) / pasos;
@@ -116,7 +108,6 @@ public class Autobus extends Thread {
             posX += dx;
             posY += dy;
             control.actualizarPaneles();
-            // Velocidad ajustada: un poco más lento que antes pero no tanto
             pausa(100 + random.nextInt(50));
         }
 
@@ -135,7 +126,6 @@ public class Autobus extends Thread {
         try {
             Thread.sleep(tiempo);
         } catch (InterruptedException ex) {
-            // solo continuar si el hilo sigue activo
         }
     }
 

@@ -9,24 +9,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
-/**
- * Hilo que atiende las solicitudes de un cliente TCP específico.
- *
- * Funcionalidad:
- * - Lee comandos del cliente
- * - Procesa solicitudes de información
- * - Envía respuestas formateadas
- * - Se ejecuta concurrentemente para cada cliente conectado
- *
- * Comandos soportados:
- * - ESTADO: Devuelve el estado de todos los buses
- * - BUS <id>: Devuelve información detallada de un bus específico
- * - AYUDA: Muestra lista de comandos disponibles
- * - SALIR: Cierra la conexión
- *
- * Autor: Proyecto Final - Programación Paralela y Distribuida
- * Fecha: Diciembre 2025
- */
 public class HiloCliente extends Thread {
 
     private final Socket clienteSocket;
@@ -34,30 +16,18 @@ public class HiloCliente extends Thread {
     private BufferedReader entrada;
     private PrintWriter salida;
 
-    /**
-     * Constructor del hilo que atiende a un cliente.
-     *
-     * @param clienteSocket Socket del cliente conectado
-     * @param control Controlador del simulador
-     */
     public HiloCliente(Socket clienteSocket, SimuladorControl control) {
         this.clienteSocket = clienteSocket;
         this.control = control;
         setName("HiloCliente-" + clienteSocket.getInetAddress().getHostAddress());
     }
 
-    /**
-     * Método principal del hilo.
-     * Atiende las solicitudes del cliente hasta que se desconecte.
-     */
     @Override
     public void run() {
         try {
-            // Configurar streams de entrada y salida
             entrada = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
             salida = new PrintWriter(clienteSocket.getOutputStream(), true);
 
-            // Mensaje de bienvenida con información del protocolo
             salida.println("╔════════════════════════════════════════════════════════════════╗");
             salida.println("║     SISTEMA DE MONITOREO DE BUSES - SAN JOSÉ/CARTAGO         ║");
             salida.println("╚════════════════════════════════════════════════════════════════╝");
@@ -80,17 +50,14 @@ public class HiloCliente extends Thread {
             salida.println("╚════════════════════════════════════════════════════════════════╝");
             salida.println();
 
-            // Procesar comandos del cliente
             String comando;
             while ((comando = entrada.readLine()) != null) {
                 comando = comando.trim().toUpperCase();
 
                 System.out.println("[HILO-CLIENTE] Comando recibido: " + comando);
 
-                // Procesar el comando
                 procesarComando(comando);
 
-                // Si el cliente envía SALIR, terminar la conexión
                 if (comando.equals("SALIR")) {
                     break;
                 }
@@ -103,11 +70,6 @@ public class HiloCliente extends Thread {
         }
     }
 
-    /**
-     * Procesa los comandos enviados por el cliente.
-     *
-     * @param comando Comando a procesar
-     */
     private void procesarComando(String comando) {
         if (comando.equals("ESTADO")) {
             enviarEstadoGeneral();
@@ -132,10 +94,6 @@ public class HiloCliente extends Thread {
         }
     }
 
-    /**
-     * Envía el estado general de todos los buses.
-     * IMPORTANTE: Muestra claramente la POSICIÓN de cada bus en las PARADAS.
-     */
     private void enviarEstadoGeneral() {
         List<Autobus> buses = control.obtenerBuses();
 
@@ -164,11 +122,6 @@ public class HiloCliente extends Thread {
         salida.println("╚════════════════════════════════════════════════════════════════╝\n");
     }
 
-    /**
-     * Envía información detallada de un bus específico.
-     *
-     * @param idBus ID del bus a consultar
-     */
     private void enviarEstadoBus(int idBus) {
         List<Autobus> buses = control.obtenerBuses();
 
@@ -212,9 +165,6 @@ public class HiloCliente extends Thread {
         }
     }
 
-    /**
-     * Envía la lista de comandos disponibles con información del protocolo.
-     */
     private void enviarAyuda() {
         salida.println("\n╔════════════════════════════════════════════════════════════════╗");
         salida.println("║              COMANDOS DISPONIBLES - PROTOCOLO TCP             ║");
@@ -247,9 +197,6 @@ public class HiloCliente extends Thread {
         salida.println("╚════════════════════════════════════════════════════════════════╝\n");
     }
 
-    /**
-     * Cierra la conexión con el cliente.
-     */
     private void cerrarConexion() {
         try {
             if (entrada != null) {

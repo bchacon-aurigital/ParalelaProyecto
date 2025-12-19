@@ -8,9 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * Ventana principal del simulador.
- */
 public class SimuladorFrame extends JFrame {
 
     private final SimuladorControl control;

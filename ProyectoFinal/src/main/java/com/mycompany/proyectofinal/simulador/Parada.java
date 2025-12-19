@@ -1,8 +1,5 @@
 package com.mycompany.proyectofinal.simulador;
 
-/**
- * Representa una parada fija dentro de la ruta.
- */
 public class Parada {
 
     private final int numero;

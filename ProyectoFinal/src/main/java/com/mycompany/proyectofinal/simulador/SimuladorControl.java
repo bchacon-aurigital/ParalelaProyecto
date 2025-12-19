@@ -9,18 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.ImageIcon;
 
-/**
- * Coordina los hilos, la interfaz y el servidor TCP de monitoreo.
- *
- * Responsabilidades:
- * - Gestionar los buses y sus hilos
- * - Coordinar la sincronización entre componentes
- * - Administrar el servidor TCP de monitoreo
- * - Actualizar la interfaz gráfica
- *
- * Autor: Proyecto Final - Programación Paralela y Distribuida
- * Fecha: Diciembre 2025
- */
 public class SimuladorControl {
 
     private final Ruta ruta;
@@ -30,7 +18,6 @@ public class SimuladorControl {
     private final List<Autobus> buses = new ArrayList<>();
     private boolean enMarcha = false;
 
-    // Servidor TCP para monitoreo remoto
     private ServidorMonitoreo servidorMonitoreo;
     private static final int PUERTO_SERVIDOR = 45000;
 
@@ -74,10 +61,6 @@ public class SimuladorControl {
         actualizarPaneles();
     }
 
-    /**
-     * Inicia la simulación de buses y el servidor TCP de monitoreo.
-     * Utiliza sincronización para evitar inicios múltiples.
-     */
     public synchronized void iniciarSimulacion() {
         if (enMarcha) {
             return;
@@ -86,32 +69,24 @@ public class SimuladorControl {
         infoPanel.agregarEvento("Simulación iniciada");
         infoPanel.actualizarEstados(buses);
 
-        // Iniciar servidor TCP de monitoreo
         servidorMonitoreo = new ServidorMonitoreo(PUERTO_SERVIDOR, this);
         servidorMonitoreo.start();
 
-        // Iniciar todos los hilos de buses
         for (Autobus bus : buses) {
             bus.start();
         }
     }
 
-    /**
-     * Detiene la simulación de buses y el servidor TCP.
-     * Espera a que todos los hilos terminen correctamente usando join().
-     */
     public synchronized void detenerSimulacion() {
         if (!enMarcha) {
             prepararBuses();
             return;
         }
 
-        // Detener todos los buses
         for (Autobus bus : buses) {
             bus.detenerBus();
         }
 
-        // Esperar a que los buses terminen (join con timeout)
         for (Autobus bus : buses) {
             try {
                 bus.join(500);
@@ -120,7 +95,6 @@ public class SimuladorControl {
             }
         }
 
-        // Detener el servidor TCP
         if (servidorMonitoreo != null) {
             servidorMonitoreo.detenerServidor();
             try {
@@ -144,22 +118,10 @@ public class SimuladorControl {
         infoPanel.actualizarEstados(buses);
     }
 
-    /**
-     * Retorna una lista inmutable de los buses actualmente en el sistema.
-     * Este método es utilizado por el servidor TCP para consultar el estado.
-     *
-     * @return Lista inmutable de buses
-     */
     public synchronized List<Autobus> obtenerBuses() {
         return Collections.unmodifiableList(new ArrayList<>(buses));
     }
 
-    /**
-     * Carga un icono desde los recursos del proyecto.
-     *
-     * @param nombreArchivo Nombre del archivo de imagen
-     * @return Imagen cargada, o null si no se encuentra
-     */
     private Image cargarIcono(String nombreArchivo) {
         URL url = getClass().getResource("/imagenes/" + nombreArchivo);
         if (url != null) {

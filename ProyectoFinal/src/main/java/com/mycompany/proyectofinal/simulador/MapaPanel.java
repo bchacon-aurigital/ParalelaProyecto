@@ -11,9 +11,6 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-/**
- * Panel que dibuja el mapa, paradas y buses.
- */
 public class MapaPanel extends JPanel {
 
     private static final int ANCHO_MAPA = 1120;

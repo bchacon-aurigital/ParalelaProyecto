@@ -7,32 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-/**
- * Cliente TCP para monitorear el sistema de buses de forma remota.
- *
- * Funcionalidad:
- * - Se conecta al servidor de monitoreo via TCP
- * - Permite al usuario enviar comandos al servidor
- * - Muestra las respuestas del servidor en tiempo real
- * - Interfaz de línea de comandos interactiva
- *
- * Uso:
- * 1. Ejecutar esta clase como aplicación independiente
- * 2. Ingresar comandos según el menú
- * 3. Recibir información en tiempo real del sistema
- *
- * Comandos soportados:
- * - ESTADO: Ver todos los buses
- * - BUS <id>: Ver información de un bus específico
- * - AYUDA: Mostrar ayuda
- * - SALIR: Desconectar del servidor
- *
- * Autor: Proyecto Final - Programación Paralela y Distribuida
- * Fecha: Diciembre 2025
- */
 public class ClienteMonitoreo {
 
-    private static final String SERVIDOR_HOST = "127.0.0.1";  // Localhost
+    private static final String SERVIDOR_HOST = "127.0.0.1";
     private static final int SERVIDOR_PUERTO = 45000;
 
     private Socket socket;
@@ -40,18 +17,10 @@ public class ClienteMonitoreo {
     private PrintWriter salida;
     private Scanner scanner;
 
-    /**
-     * Constructor del cliente de monitoreo.
-     */
     public ClienteMonitoreo() {
         scanner = new Scanner(System.in);
     }
 
-    /**
-     * Conecta al servidor de monitoreo.
-     *
-     * @return true si la conexión fue exitosa, false en caso contrario
-     */
     public boolean conectar() {
         try {
             System.out.println("===========================================");
@@ -66,7 +35,6 @@ public class ClienteMonitoreo {
             System.out.println("¡Conexión establecida exitosamente!");
             System.out.println();
 
-            // Leer mensaje de bienvenida del servidor
             String linea;
             while ((linea = entrada.readLine()) != null && !linea.isEmpty()) {
                 System.out.println(linea);
@@ -82,15 +50,11 @@ public class ClienteMonitoreo {
         }
     }
 
-    /**
-     * Inicia el bucle principal de interacción con el usuario.
-     */
     public void iniciar() {
         System.out.println("\n>> Ingrese comandos (escriba 'AYUDA' para ver opciones):\n");
 
         try {
             while (true) {
-                // Leer comando del usuario
                 System.out.print(">>> ");
                 String comando = scanner.nextLine().trim();
 
@@ -98,12 +62,9 @@ public class ClienteMonitoreo {
                     continue;
                 }
 
-                // Enviar comando al servidor
                 salida.println(comando);
 
-                // Si el usuario quiere salir, cerrar
                 if (comando.equalsIgnoreCase("SALIR")) {
-                    // Leer respuesta de despedida
                     String respuesta = entrada.readLine();
                     if (respuesta != null) {
                         System.out.println(respuesta);
@@ -111,7 +72,6 @@ public class ClienteMonitoreo {
                     break;
                 }
 
-                // Leer y mostrar la respuesta del servidor
                 leerRespuestaServidor();
             }
 
@@ -123,11 +83,6 @@ public class ClienteMonitoreo {
         }
     }
 
-    /**
-     * Lee y muestra la respuesta del servidor.
-     *
-     * @throws IOException si hay error al leer
-     */
     private void leerRespuestaServidor() throws IOException {
         String linea;
         boolean leyendoRespuesta = true;
@@ -135,16 +90,12 @@ public class ClienteMonitoreo {
         while (leyendoRespuesta && (linea = entrada.readLine()) != null) {
             System.out.println(linea);
 
-            // Si encontramos una línea vacía, terminamos de leer la respuesta
             if (linea.isEmpty()) {
                 leyendoRespuesta = false;
             }
         }
     }
 
-    /**
-     * Cierra la conexión con el servidor.
-     */
     public void desconectar() {
         try {
             if (entrada != null) {
@@ -166,22 +117,11 @@ public class ClienteMonitoreo {
         }
     }
 
-    /**
-     * Método main para ejecutar el cliente de forma independiente.
-     *
-     * Instrucciones de uso:
-     * 1. Asegurarse de que el servidor esté ejecutándose
-     * 2. Ejecutar esta clase
-     * 3. Seguir las instrucciones en pantalla
-     *
-     * @param args Argumentos de línea de comandos (no utilizados)
-     */
+
     public static void main(String[] args) {
         ClienteMonitoreo cliente = new ClienteMonitoreo();
 
-        // Intentar conectar al servidor
         if (cliente.conectar()) {
-            // Si la conexión fue exitosa, iniciar interacción
             cliente.iniciar();
         } else {
             System.out.println("\nNo se pudo establecer conexión con el servidor.");
