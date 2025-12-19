@@ -85,13 +85,18 @@ public class ClienteMonitoreo {
 
     private void leerRespuestaServidor() throws IOException {
         String linea;
-        boolean leyendoRespuesta = true;
+        int lineasVaciasConsecutivas = 0;
 
-        while (leyendoRespuesta && (linea = entrada.readLine()) != null) {
+        while ((linea = entrada.readLine()) != null) {
             System.out.println(linea);
 
             if (linea.isEmpty()) {
-                leyendoRespuesta = false;
+                lineasVaciasConsecutivas++;
+                if (lineasVaciasConsecutivas >= 2) {
+                    break;
+                }
+            } else {
+                lineasVaciasConsecutivas = 0;
             }
         }
     }

@@ -31,13 +31,11 @@ public class HiloCliente extends Thread {
             salida.println("================================================================");
             salida.println("    SISTEMA DE MONITOREO DE BUSES - SAN JOSE/CARTAGO");
             salida.println("================================================================");
-            salida.println();
             salida.println("PROTOCOLO: TCP/IP");
             salida.println("Puerto del servidor: 45000");
             salida.println("IP del servidor: " + clienteSocket.getLocalAddress().getHostAddress());
             salida.println("IP del cliente: " + clienteSocket.getInetAddress().getHostAddress());
             salida.println("Estado de conexion: CONECTADO");
-            salida.println();
             salida.println("Escriba 'AYUDA' para ver comandos disponibles");
             salida.println("================================================================");
             salida.println();
@@ -89,7 +87,6 @@ public class HiloCliente extends Thread {
     private void enviarEstadoGeneral() {
         List<Autobus> buses = control.obtenerBuses();
 
-        salida.println();
         salida.println("================================================================");
         salida.println("       ESTADO GENERAL DEL SISTEMA - Protocolo TCP");
         salida.println("       Puerto: 45000");
@@ -109,6 +106,7 @@ public class HiloCliente extends Thread {
         }
         salida.println("Comunicacion via TCP/IP - Conexion activa");
         salida.println();
+        salida.println();
     }
 
     private void enviarEstadoBus(int idBus) {
@@ -123,7 +121,6 @@ public class HiloCliente extends Thread {
         }
 
         if (busEncontrado != null) {
-            salida.println();
             salida.println("================================================================");
             salida.println("  INFORMACION DETALLADA DEL BUS #" + idBus + " - Protocolo TCP");
             salida.println("================================================================");
@@ -140,16 +137,16 @@ public class HiloCliente extends Thread {
             salida.println();
             salida.println("Datos obtenidos via TCP desde servidor en tiempo real");
             salida.println();
-        } else {
             salida.println();
+        } else {
             salida.println("ERROR: No se encontro un bus con ID #" + idBus);
             salida.println("IDs validos: 1 a " + buses.size());
+            salida.println();
             salida.println();
         }
     }
 
     private void enviarAyuda() {
-        salida.println();
         salida.println("================================================================");
         salida.println("         COMANDOS DISPONIBLES - PROTOCOLO TCP");
         salida.println("================================================================");
@@ -172,6 +169,7 @@ public class HiloCliente extends Thread {
         salida.println("    - Cierra la conexion TCP con el servidor");
         salida.println();
         salida.println("================================================================");
+        salida.println();
         salida.println();
     }
 
